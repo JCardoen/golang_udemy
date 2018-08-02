@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type deck []string
+type deck []card
 
 func newDeck() deck {
 	deck := deck {}
@@ -18,7 +18,7 @@ func newDeck() deck {
 
 	for _, suite := range cardSuits {
 		for _, value := range cardValues {
-			deck = append(deck, value + " of " + suite)
+			deck = append(deck, card { suite: suite, value: value})
 		}
 	}
 
@@ -45,7 +45,7 @@ func (d deck) toString() string {
 }
 
 func deckFromFile(filepath string) deck {
-	var cards deck
+	var cards []string
 	bs, err := ioutil.ReadFile(filepath)
 	if err != nil {
 		fmt.Println("ERROR: ", err)
@@ -54,6 +54,7 @@ func deckFromFile(filepath string) deck {
 
 	commaString := string(bs)
 	cards = strings.Split(commaString, ",")
+
 	return deck(cards)
 }
 
